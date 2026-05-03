@@ -104,3 +104,14 @@ class AuthCredentials(BaseModel):
     """DTO for user authentication"""
     email: EmailStr = Field(..., json_schema_extra={"example": "test@mail.com"})
     password: str = Field(..., json_schema_extra={"example": "_1jUie_1328!#$"})
+    
+class PasswordResetRequestModel(BaseModel):
+    """DTO for requesting a password reset email"""
+    email: EmailStr = Field(..., json_schema_extra={"example": "user@example.com"})
+
+class PasswordResetConfirmModel(BaseModel):
+    """DTO for confirming password reset with token"""
+    token: str = Field(..., description="The reset token received via email")
+    new_password: str = Field(
+        ..., min_length=6, json_schema_extra={"example": "NewStrongPwd123!"}
+    )

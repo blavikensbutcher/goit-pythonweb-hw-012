@@ -11,6 +11,8 @@ from src.helpers.validate_tokens import validate_access_token
 from src.models.user import (
     AuthCredentials,
     CreateUserModel,
+    PasswordResetConfirmModel,
+    PasswordResetRequestModel,
 )
 from src.services.auth_service import AuthService, get_auth_service
 from src.services.users import (
@@ -133,3 +135,37 @@ async def validate_email(
     """Verify email address"""
     await auth_service.verify_email(db, id_token)
     return {"message": "Email verified"}
+
+@router.post(
+    "/forgot-password",
+    status_code=200,
+    responses={200: {"description": "Password reset email sent if user exists"}},
+)
+async def forgot_password(
+    request_data: PasswordResetRequestModel,
+    db: AsyncSession = Depends(get_db),
+    auth_service: AuthService = Depends(get_auth_service),
+) -> dict[str, str]:
+    """Request a password reset email"""
+    await auth_service.request_password_reset(db, request_data.email)
+    # Always return success message to prevent email enumeration
+    return {"message": "If that email is in our database, we will send a password reset link"}
+
+
+@router.post(
+    "/reset-password",
+    status_code=200,
+    responses={200: {"description": "Password successfully reset"}},
+)
+async def reset_password(
+    reset_data: PasswordResetConfirmModel,
+    db: AsyncSession = Depends(get_db),
+    auth_service: AuthService = Depends(get_auth_service),
+) -> dict[str, str]:
+    """Reset password using token received via email"""
+    await auth_service.reset_password(
+        db, 
+        token=reset_data.token, 
+        new_password=reset_data.new_password
+    )
+    return {"message": "Password successfully updated"}

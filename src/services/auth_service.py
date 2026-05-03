@@ -212,6 +212,87 @@ class AuthService:
         except Exception as e:
             logger.error(f"Failed to verify email: {e}")
             raise HTTPException(400, "Invalid token")
+    
+    async def request_password_reset(self, db: AsyncSession, email: str) -> None:
+        """Generate a password reset token and send it via email."""
+        stmt = select(UserModel).where(UserModel.email == email)
+        result = await db.execute(stmt)
+        user = result.scalar_one_or_none()
+
+        if not user:
+            # We don't raise 404 here to prevent email enumeration attacks
+            return
+
+        # Create a token specifically for password reset
+        reset_payload = {
+            "type": "RESET_PASSWORD",
+            "sub": str(user.id),
+        }
+        
+        # Reset token is usually short-lived (e.g., 15-30 minutes)
+        reset_token = encode_jwt(reset_payload, expire_minutes=15)
+        
+        try:
+            # Generate link to frontend app password reset page
+            reset_link = urljoin(settings.api.base_url, f"reset-password?token={reset_token}")
+            
+            await Mailer.send_simple_message(
+                subject="Password Reset Request",
+                html=f"""
+                    <p>Hello, {user.name or 'User'}!</p>
+                    <p>You recently requested to reset your password for your account.</p>
+                    <p>Click the link below to reset it. This link will expire in 15 minutes.</p>
+                    <a href="{reset_link}">Reset Password</a>
+                    <p>If you did not request a password reset, please ignore this email.</p>
+                """,
+                sender="Gart App <no-reply@gart.com>",
+                recipient=user.email,
+            )
+        except Exception as e:
+            logger.error(f"Failed to send password reset email: {e}")
+            raise HTTPException(500, "Failed to send reset email")
+
+    async def reset_password(
+        self, db: AsyncSession, token: str, new_password: str
+    ) -> None:
+        """Validate token and update user's password."""
+        try:
+            decoded_token = decode_jwt(token)
+            
+            if decoded_token.get("type") != "RESET_PASSWORD":
+                raise HTTPException(400, "Invalid token type")
+                
+            user_id_str = decoded_token.get("sub")
+            if not user_id_str:
+                raise HTTPException(400, "Invalid token format")
+
+            user_id = uuid.UUID(user_id_str)
+
+            stmt = select(UserModel).where(UserModel.id == user_id)
+            result = await db.execute(stmt)
+            user = result.scalar_one_or_none()
+
+            if not user:
+                raise HTTPException(404, "User not found")
+
+            # Update password
+            user.password = hash_password(new_password)
+            
+            user.accessToken = None
+            user.refreshToken = None
+            
+            await db.commit()
+
+        except InvalidTokenError:
+            raise HTTPException(400, "Invalid or expired reset token")
+        except ValueError:
+            raise HTTPException(400, "Invalid user ID format in token")
+        except HTTPException:
+            raise
+        except Exception as e:
+            logger.error(f"Failed to reset password: {e}")
+            await db.rollback()
+            raise HTTPException(500, "Password reset failed")
 
 
 def get_auth_service() -> AuthService:
