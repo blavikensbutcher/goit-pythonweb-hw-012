@@ -10,7 +10,7 @@ from sqlalchemy.orm import declarative_base
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL",
-    "postgresql+asyncpg://postgres:mysecretpassword@127.0.0.1:5455/postgres",
+    "postgresql+asyncpg://postgres:mysecretpassword@127.0.0.1:5999/postgres",
 )
 
 engine = create_async_engine(DATABASE_URL, echo=False)
