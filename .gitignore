@@ -5,9 +5,11 @@ __pycache__/
 
 # C extensions
 *.so
+/src/certs
 
 # Distribution / packaging
 .Python
+.vscode
 build/
 develop-eggs/
 dist/

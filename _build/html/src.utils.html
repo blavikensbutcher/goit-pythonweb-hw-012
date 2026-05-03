@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>src.utils package &#8212; GoIT Python Web HW 12 1.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="src.helpers package" href="src.helpers.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="src-utils-package">
+<h1>src.utils package<a class="headerlink" href="#src-utils-package" title="Link to this heading">¶</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-src.utils.auth">
+<span id="src-utils-auth-module"></span><h2>src.utils.auth module<a class="headerlink" href="#module-src.utils.auth" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.auth.check_password">
+<span class="sig-prename descclassname"><span class="pre">src.utils.auth.</span></span><span class="sig-name descname"><span class="pre">check_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user_password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hashed_password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/utils/auth.html#check_password"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.utils.auth.check_password" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.auth.decode_jwt">
+<span class="sig-prename descclassname"><span class="pre">src.utils.auth.</span></span><span class="sig-name descname"><span class="pre">decode_jwt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">public_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'-----BEGIN</span> <span class="pre">PUBLIC</span> <span class="pre">KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArBthakpWyjkIE/3kBKxe\naTe9+xkanWJ5aduSXYSS/CjwgQGslOYRjqEAFAOeQBxRnTIWcdciqnP8h4mt3b5H\nlw+nazPhgBLzY4vj6yIthq59OVdfD9E5d3xClxgMnp+B9PcDdWuFSbLXJfyagN8y\nrGXfVrKL0y2Ji1OS85uh7rOi5OiFG1efQHbyw9jd5luVqgnk62YsMEXVUsdM52Kv\n0ilohtPcZAUWX3Xhk+W5UkOOrpBibRWEXi3nGqWnGUSe4zdy8Rseh3CBrUg/5IrQ\nzyQdzZ33aN38Vy2e11o3elTG1xWpQEPxhjtGzz+ddxeWjo95LRlwlENK43zqtV4l\nEQIDAQAB\n-----END</span> <span class="pre">PUBLIC</span> <span class="pre">KEY-----\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'RS256'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/utils/auth.html#decode_jwt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.utils.auth.decode_jwt" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.auth.encode_jwt">
+<span class="sig-prename descclassname"><span class="pre">src.utils.auth.</span></span><span class="sig-name descname"><span class="pre">encode_jwt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">payload</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">private_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'-----BEGIN</span> <span class="pre">PRIVATE</span> <span class="pre">KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCsG2FqSlbKOQgT\n/eQErF5pN737GRqdYnlp25JdhJL8KPCBAayU5hGOoQAUA55AHFGdMhZx1yKqc/yH\nia3dvkeXD6drM+GAEvNji+PrIi2Grn05V18P0Tl3fEKXGAyen4H09wN1a4VJstcl\n/JqA3zKsZd9WsovTLYmLU5Lzm6Hus6Lk6IUbV59AdvLD2N3mW5WqCeTrZiwwRdVS\nx0znYq/SKWiG09xkBRZfdeGT5blSQ46ukGJtFYReLecapacZRJ7jN3LxGx6HcIGt\nSD/kitDPJB3Nnfdo3fxXLZ7XWjd6VMbXFalAQ/GGO0bPP513F5aOj3ktGXCUQ0rj\nfOq1XiURAgMBAAECggEABbotGhuTjUv+D7f3BroSaqeWikXp+7aUhYp4etMjVuag\nAopwnURMkg7Sl+ENX35veLNyLh610kpb4e6i77pMUl8e82Ntjgb8jx0GKeOkz7K8\nJtkYXv8zFq//3NyJshzq9wViB3mI+FoyrHYL9grXZ/VXwulcEnenk7UcYFJyflK6\nhbH+TMK06Nv9fpOYPMY4WSXeeXc2xqYvGLshQrGKHl395TkWIC7l9cy470nysK8f\nNNfF1xey2UcG7PvSde4AfKuaM8ynXn39WBkDf19tL1hQlpCwmAK7W+TfFZc3npQJ\najHYDt/qKB/MikEkXn20gfHBvRSiee+/9OFgYybcxQKBgQDfLwh91NChy/xD5Gi2\nv0ZjfMYJmW78AWZwum2HDxKTYGNQxX60h+OEHkSxt5OL1lJjQEgKFys0vk8MdqKb\nESsStZUXh1GtkQ+HN/sISsxnFIQIIshcVpi4dfTvCZRirSucKDxJ/Ov+KkK5SY8q\nIP9R2CuopvXf0kRk2chu9kLFdQKBgQDFab3wBUYrn/s/UliASXftDKlbl9yjwBFS\nvNr6pn6kXCD5povYOttDUQE98f3w4/yNSU0MWZu4tuvqC8MWjuS/Xc4n6zGJPlwR\nRlgX4foUKrFUvthNvQzIDQudOVcHzI0mC1q3JQ/ZOoN2/9WYnoHc8ewjQ76KzxuQ\nsHV9DixBrQKBgQCMyQGFRsLY3XFjbmjzppMDXQkbsxMEmumBAMjoooRoPSxJHlwA\nC5xkkidpJ9FGK8tK2pjW7KiPm+EHjqqiQOE36x2CexT19QSjmpebMnvgJlvnOfHD\n9chey+HXC+bznCNfXS4yyf4gFY6DjThnLeuBOGjJ+ZAuQVhtecfq3yNdpQKBgQCR\naaxg6mGfrL4TDILoLDXMRLFTKG97pvSbr0TVsGJEiyA3BHiqE+CCm16A1ImrMSRM\nphu85xyPWR45TeSr7yGL3HsIaHQalfaXOuuU2/2rcS8iL1mBGaoaiZFuhFgZBJFL\n3r05fnFIH5PKyfP58XfS2diIuVPXR2sUjwZb0V7EGQKBgG1megCJ/sJZuU9vkl2n\nbZV8q+6tLXq+Hotxg/Ui9LdvtAnvO9DGPw3xSCibjbehJGB4zr/l4jDKbDtE6rnX\nBkm3ypF+9PMYCxjoJ4Sn+OEvvCYvoN9B+CbCPqBgrvptJnCUKTLJhpUSii1oYOsr\n3MkE7Kb5lehX7AT9I3AyfD6a\n-----END</span> <span class="pre">PRIVATE</span> <span class="pre">KEY-----\n'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">algorithm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'RS256'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">expire_minutes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1440</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/utils/auth.html#encode_jwt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.utils.auth.encode_jwt" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.auth.hash_password">
+<span class="sig-prename descclassname"><span class="pre">src.utils.auth.</span></span><span class="sig-name descname"><span class="pre">hash_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="reference internal" href="_modules/src/utils/auth.html#hash_password"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.utils.auth.hash_password" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-src.utils.exception_handler">
+<span id="src-utils-exception-handler-module"></span><h2>src.utils.exception_handler module<a class="headerlink" href="#module-src.utils.exception_handler" title="Link to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="src.utils.exception_handler.register_exception_handlers">
+<span class="sig-prename descclassname"><span class="pre">src.utils.exception_handler.</span></span><span class="sig-name descname"><span class="pre">register_exception_handlers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">FastAPI</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/utils/exception_handler.html#register_exception_handlers"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.utils.exception_handler.register_exception_handlers" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-src.utils.limiter">
+<span id="src-utils-limiter-module"></span><h2>src.utils.limiter module<a class="headerlink" href="#module-src.utils.limiter" title="Link to this heading">¶</a></h2>
+</section>
+<section id="module-src.utils.mailer">
+<span id="src-utils-mailer-module"></span><h2>src.utils.mailer module<a class="headerlink" href="#module-src.utils.mailer" title="Link to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="src.utils.mailer.Mailer">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">src.utils.mailer.</span></span><span class="sig-name descname"><span class="pre">Mailer</span></span><a class="reference internal" href="_modules/src/utils/mailer.html#Mailer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.utils.mailer.Mailer" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="src.utils.mailer.Mailer.send_simple_message">
+<span class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span><span class="k"><span class="pre">static</span></span><span class="w"> </span></span><span class="sig-name descname"><span class="pre">send_simple_message</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subject</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sender</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipient</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/utils/mailer.html#Mailer.send_simple_message"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.utils.mailer.Mailer.send_simple_message" title="Link to this definition">¶</a></dt>
+<dd><p>Send plain text or HTML email via Mailgun</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-src.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-src.utils" title="Link to this heading">¶</a></h2>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">GoIT Python Web HW 12</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="src.html">src package</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">src</a><ul>
+  <li><a href="src.html">src package</a><ul>
+      <li>Previous: <a href="src.helpers.html" title="previous chapter">src.helpers package</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2026, Volodymyr.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.1.0</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/src.utils.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
