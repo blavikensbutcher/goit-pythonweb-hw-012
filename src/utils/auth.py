@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 from src.config import Settings
 
-load_dotenv()
+load_dotenv(override=True)
 
 settings = Settings()
 

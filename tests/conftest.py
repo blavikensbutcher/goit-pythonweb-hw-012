@@ -25,13 +25,11 @@ TEST_DATABASE_URL = os.getenv(
     "postgresql+asyncpg://postgres:mysecretpassword@127.0.0.1:5999/postgres",
 )
 
-# Використовуємо NullPool, щоб уникнути помилки "another operation is in progress"
 engine = create_async_engine(TEST_DATABASE_URL, echo=False, poolclass=NullPool)
 TestingSessionLocal = sessionmaker(
     autocommit=False, autoflush=False, bind=engine, class_=AsyncSession
 )
 
-# Перевизначаємо залежність get_db для контролерів
 async def override_get_db():
     async with TestingSessionLocal() as session:
         yield session
