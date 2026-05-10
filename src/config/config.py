@@ -3,11 +3,54 @@
 import logging
 import os
 from pathlib import Path
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.backends import default_backend
 
 from pydantic import BaseModel
 from pydantic.v1 import BaseSettings
 
 BASE_DIR = Path(__file__).parent.parent
+
+
+def generate_rsa_key_pair():
+    """Generate RSA key pair if it doesn't exist."""
+    certs_dir = BASE_DIR / "certs"
+    certs_dir.mkdir(exist_ok=True)
+    
+    private_key_path = certs_dir / "jwt-private.pem"
+    public_key_path = certs_dir / "jwt-public.pem"
+    
+    # Only generate if keys don't exist
+    if not private_key_path.exists() or not public_key_path.exists():
+        try:
+            # Generate private key
+            private_key = rsa.generate_private_key(
+                public_exponent=65537,
+                key_size=2048,
+                backend=default_backend()
+            )
+            
+            # Serialize private key
+            private_pem = private_key.private_bytes(
+                encoding=serialization.Encoding.PEM,
+                format=serialization.PrivateFormat.PKCS8,
+                encryption_algorithm=serialization.NoEncryption()
+            )
+            private_key_path.write_bytes(private_pem)
+            
+            # Serialize public key
+            public_key = private_key.public_key()
+            public_pem = public_key.public_bytes(
+                encoding=serialization.Encoding.PEM,
+                format=serialization.PublicFormat.SubjectPublicKeyInfo
+            )
+            public_key_path.write_bytes(public_pem)
+            
+            logging.info("Generated JWT RSA key pair successfully")
+        except Exception as e:
+            logging.error(f"Failed to generate RSA key pair: {e}")
+            raise
 
 
 class EnvironmentSettings(BaseModel):
@@ -53,6 +96,12 @@ class Settings(BaseSettings):
     environment: EnvironmentSettings = EnvironmentSettings()
     mailgun: MailSettings = MailSettings()
     api: APISettings = APISettings()
+    
+    def __init__(self, **data):
+        """Initialize settings and generate keys if needed."""
+        super().__init__(**data)
+        # Generate JWT keys on startup if they don't exist
+        generate_rsa_key_pair()
 
 
 def configure_logging(level: int = logging.INFO):
