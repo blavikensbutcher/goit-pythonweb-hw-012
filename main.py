@@ -7,6 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from src.database import init_db
 from src.controllers.contacts import router
 from src.controllers.auth import router as auth_router
+from src.services.cache import close_redis
 
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -18,6 +19,7 @@ from src.utils.limiter import limiter
 async def lifespan(app: FastAPI):
     await init_db()
     yield
+    await close_redis()
 
 app = FastAPI(
     lifespan=lifespan,  

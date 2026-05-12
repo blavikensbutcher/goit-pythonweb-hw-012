@@ -89,6 +89,19 @@ class APISettings(BaseModel):
     base_url: str = os.environ.get("BASE_URL", "http://localhost:8090/api/v1/")
 
 
+class RedisSettings(BaseModel):
+    """Redis settings used for application-level caching."""
+
+    url: str | None = os.environ.get("REDIS_URL")
+    host: str = os.environ.get("REDIS_HOST", "localhost")
+    port: int = int(os.environ.get("REDIS_PORT") or 6379)
+    username: str | None = os.environ.get("REDIS_USERNAME")
+    password: str | None = os.environ.get("REDIS_PASSWORD")
+    db: int = int(os.environ.get("REDIS_DB") or 0)
+    ssl: bool = os.environ.get("REDIS_SSL", "").lower() in {"1", "true", "yes"}
+    user_cache_ttl: int = int(os.environ.get("REDIS_USER_CACHE_TTL") or 900)
+
+
 class Settings(BaseSettings):
     """Application settings loaded from environment variables and defaults."""
 
@@ -96,6 +109,7 @@ class Settings(BaseSettings):
     environment: EnvironmentSettings = EnvironmentSettings()
     mailgun: MailSettings = MailSettings()
     api: APISettings = APISettings()
+    redis: RedisSettings = RedisSettings()
     
     def __init__(self, **data):
         """Initialize settings and generate keys if needed."""

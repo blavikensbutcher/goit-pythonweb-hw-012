@@ -2,6 +2,7 @@ import logging
 import os
 from typing import AsyncGenerator
 
+from dotenv import load_dotenv
 from sqlalchemy.engine import make_url
 from sqlalchemy.ext.asyncio import (
     AsyncSession,
@@ -14,6 +15,8 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s %(levelname)s %(name)s: %(message)s",
 )
+
+load_dotenv() 
 
 logger = logging.getLogger("app.db")
 

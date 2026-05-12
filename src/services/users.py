@@ -1,18 +1,76 @@
 import uuid
+import logging
 from typing import Annotated
 
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, Response
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jwt import InvalidTokenError
+from pydantic import ValidationError
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.config import Settings
 from src.database import get_db
 from src.models.user import UpdateUserModel, UserModel 
+from src.services.cache import get_redis
 from src.types.user_types import UserTypes
 from src.utils.auth import decode_jwt
 
 auth_scheme = HTTPBearer()
+settings = Settings()
+logger = logging.getLogger(__name__)
+
+USER_CACHE_KEY_PREFIX = "user"
+USER_CACHE_STATUS_HEADER = "X-User-Cache"
+USER_CACHE_TTL_HEADER = "X-User-Cache-TTL"
+
+
+def _user_cache_key(user_id: str) -> str:
+    return f"{USER_CACHE_KEY_PREFIX}:{user_id}"
+
+
+def _set_user_cache_headers(response: Response, status: str) -> None:
+    response.headers[USER_CACHE_STATUS_HEADER] = status
+    response.headers[USER_CACHE_TTL_HEADER] = str(settings.redis.user_cache_ttl)
+    response.headers["Cache-Control"] = "no-store"
+
+
+async def _get_cached_user(redis, user_id: str) -> UserTypes | None:
+    """Load a user DTO from Redis cache."""
+    if redis is None:
+        return None
+
+    try:
+        cached_user = await redis.get(_user_cache_key(user_id))
+    except Exception:
+        logger.warning("Failed to read user from Redis cache", exc_info=True)
+        return None
+
+    if not cached_user:
+        return None
+
+    try:
+        return UserTypes.model_validate_json(cached_user)
+    except ValidationError:
+        logger.warning("Invalid cached user payload; ignoring cache", exc_info=True)
+        return None
+
+
+async def _cache_user(redis, user: UserTypes | UserModel) -> None:
+    """Persist a user DTO in Redis cache."""
+    if redis is None:
+        return
+
+    user_data = UserTypes.model_validate(user)
+
+    try:
+        await redis.set(
+            _user_cache_key(str(user_data.id)),
+            user_data.model_dump_json(),
+            ex=settings.redis.user_cache_ttl,
+        )
+    except Exception:
+        logger.warning("Failed to write user to Redis cache", exc_info=True)
 
 
 class UserService:
@@ -95,7 +153,9 @@ class UserService:
 
 async def get_current_user_from_token(
     token: Annotated[HTTPAuthorizationCredentials, Depends(auth_scheme)],
+    response: Response,
     db: AsyncSession = Depends(get_db),
+    redis=Depends(get_redis),
 ) -> UserTypes:
     """Resolve the current authenticated user from the bearer token."""
     credentials_exception = HTTPException(
@@ -116,8 +176,22 @@ async def get_current_user_from_token(
 
     if user_id is None:
         raise credentials_exception
-        
+
+    if redis is None:
+        _set_user_cache_headers(response, "BYPASS")
+    else:
+        _set_user_cache_headers(response, "MISS")
+
+    cached_user = await _get_cached_user(redis, user_id)
+    if cached_user and cached_user.accessToken == token.credentials:
+        _set_user_cache_headers(response, "HIT")
+        return cached_user
+    if cached_user:
+        _set_user_cache_headers(response, "STALE")
+
     # Якщо користувача не знайдено, get_user_by_id сам викине HTTPException(404)
     user = await UserService.get_user_by_id(db, user_id)
+    user_data = UserTypes.model_validate(user)
+    await _cache_user(redis, user_data)
 
-    return user
+    return user_data

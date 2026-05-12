@@ -105,8 +105,6 @@ async def refresh(
 async def get_current_user(
     request: Request,
     user: Annotated[UserTypes, Depends(get_current_user_from_token)],
-    db: AsyncSession = Depends(get_db),
-    user_service: UserService = Depends(get_user_service),
 ):
     """Get current user"""
     if not user:
@@ -115,12 +113,7 @@ async def get_current_user(
     if not await validate_access_token(user.accessToken or ""):
         raise HTTPException(401, "Authentication error")
 
-    user_obj = await user_service.get_user_by_id(db, str(user.id))
-
-    if not user_obj:
-        raise HTTPException(404, "User not found")
-
-    user_data = UserTypes.model_validate(user_obj)
+    user_data = UserTypes.model_validate(user)
     user_dict = user_data.model_dump(mode="json")
 
     return CurrentUserDto(**user_dict)
